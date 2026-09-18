@@ -1,0 +1,337 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top, #3b3b3b 0%, #1b1b1b 45%, #0d0d0d 100%);
+    color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    font-size: clamp(55px, 13vw, 80px);
+    line-height: 0.9;
+    font-weight: 900;
+    letter-spacing: -5px;
+}
+
+.game-header p {
+    color: #bdbdbd;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.score-box {
+    min-width: 100px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.score-box span {
+    display: block;
+    color: #aaa;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-box strong {
+    display: block;
+    font-size: 28px;
+    margin-top: 3px;
+}
+
+.game-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 14px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    color: white;
+    background: #776e65;
+    padding: 11px 20px;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background: #8f857b;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.game-board {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: rgba(187, 173, 160, 0.35);
+    border-radius: 16px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    touch-action: none;
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(24px, 7vw, 42px);
+    font-weight: 900;
+    transition:
+        transform 0.12s ease,
+        background-color 0.12s ease,
+        box-shadow 0.12s ease;
+    animation: tileAppear 0.18s ease;
+    user-select: none;
+}
+
+.tile.empty {
+    background: rgba(238, 228, 218, 0.12);
+}
+
+.tile-2 {
+    background: #eee4da;
+    color: #776e65;
+}
+
+.tile-4 {
+    background: #ede0c8;
+    color: #776e65;
+}
+
+.tile-8 {
+    background: #f2b179;
+    color: #f9f6f2;
+}
+
+.tile-16 {
+    background: #f59563;
+    color: #f9f6f2;
+}
+
+.tile-32 {
+    background: #f67c5f;
+    color: #f9f6f2;
+}
+
+.tile-64 {
+    background: #f65e3b;
+    color: #f9f6f2;
+}
+
+.tile-128 {
+    background: #edcf72;
+    color: #f9f6f2;
+    font-size: clamp(21px, 6vw, 36px);
+    box-shadow: 0 0 15px rgba(237, 207, 114, 0.3);
+}
+
+.tile-256 {
+    background: #edcc61;
+    color: #f9f6f2;
+    font-size: clamp(21px, 6vw, 36px);
+    box-shadow: 0 0 18px rgba(237, 204, 97, 0.35);
+}
+
+.tile-512 {
+    background: #edc850;
+    color: #f9f6f2;
+    font-size: clamp(21px, 6vw, 36px);
+    box-shadow: 0 0 20px rgba(237, 200, 80, 0.4);
+}
+
+.tile-1024 {
+    background: #edc53f;
+    color: #f9f6f2;
+    font-size: clamp(18px, 5.5vw, 32px);
+    box-shadow: 0 0 22px rgba(237, 197, 63, 0.45);
+}
+
+.tile-2048 {
+    background: linear-gradient(135deg, #edc22e, #f7d45b);
+    color: #fff;
+    font-size: clamp(18px, 5.5vw, 32px);
+    box-shadow:
+        0 0 25px rgba(255, 210, 50, 0.65),
+        inset 0 0 15px rgba(255, 255, 255, 0.2);
+    animation: winTile 0.5s ease infinite alternate;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.controls p {
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.keys {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.keys span {
+    min-width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ddd;
+    font-weight: bold;
+}
+
+.instructions {
+    text-align: center;
+    color: #777;
+    font-size: 13px;
+    margin-top: 14px;
+}
+
+.message-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 100;
+    backdrop-filter: blur(6px);
+}
+
+.message-overlay.hidden {
+    display: none;
+}
+
+.message-box {
+    width: min(90%, 380px);
+    text-align: center;
+    padding: 35px 25px;
+    border-radius: 20px;
+    background: #262626;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    animation: messageAppear 0.25s ease;
+}
+
+.message-box h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.message-box p {
+    color: #aaa;
+    margin-bottom: 22px;
+}
+
+@keyframes tileAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes winTile {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+
+    .game-container {
+        max-width: 430px;
+    }
+
+    .game-board {
+        gap: 7px;
+        padding: 7px;
+        border-radius: 12px;
+    }
+
+    .tile {
+        border-radius: 7px;
+    }
+
+    .score-box {
+        min-width: 85px;
+        padding: 9px 12px;
+    }
+
+    .score-box strong {
+        font-size: 23px;
+    }
+}
